@@ -4,7 +4,6 @@ plugins:
   - serverless-offline
   - serverless-plugin-optimize
 
-
 provider:
   name: aws
   runtime: nodejs16.x
@@ -18,4 +17,4 @@ functions:
           path: /
       - http:
           method: ANY
-          path: '{proxy+}'
+          path: "{proxy+}"
