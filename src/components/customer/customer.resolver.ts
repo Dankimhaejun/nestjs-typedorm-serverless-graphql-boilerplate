@@ -1,11 +1,11 @@
-import { LoginInput } from './dto/login.input';
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { CustomerService } from './customer.service';
+import { LoginOutput } from 'src/components/customer/dto/login.output';
 
+import { CustomerService } from './customer.service';
 import { CreateCustomerInput } from './dto/create-customer.input';
+import { LoginInput } from './dto/login.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
-import { LoginOutput } from 'src/components/customer/dto/login.output';
 
 @Resolver(() => User)
 export class CustomerResolver {

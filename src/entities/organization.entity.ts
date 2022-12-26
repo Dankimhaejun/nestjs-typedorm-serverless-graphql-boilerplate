@@ -4,8 +4,8 @@ import {
   Entity,
   AutoGenerateAttribute,
   INDEX_TYPE,
+  AUTO_GENERATE_ATTRIBUTE_STRATEGY,
 } from '@typedorm/common';
-import { AUTO_GENERATE_ATTRIBUTE_STRATEGY } from '@typedorm/common';
 import { masterTable } from 'src/databases/common/master.table';
 
 @Entity({

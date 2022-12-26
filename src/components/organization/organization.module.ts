@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { OrganizationService } from './organization.service';
-import { OrganizationResolver } from './organization.resolver';
 import { OrganizationRepository } from 'src/components/organization/organization.repository';
+
+import { OrganizationResolver } from './organization.resolver';
+import { OrganizationService } from './organization.service';
 
 @Module({
   providers: [

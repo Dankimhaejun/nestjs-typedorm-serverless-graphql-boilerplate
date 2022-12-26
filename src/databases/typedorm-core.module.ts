@@ -12,22 +12,22 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { v4 as uuid } from 'uuid';
 
 import {
-  TYPEDORM_MODULE_ID,
-  TYPEDORM_MODULE_OPTIONS,
-} from './typedorm.constants';
-import {
-  TypeDormModuleAsyncOptions,
-  TypeDormModuleOptions,
-  TypeDormOptionsFactory,
-} from './interfaces';
-import { TypeDormModule } from './typedorm.module';
-import { createTypeDormProviders } from './typedorm.providers';
-import {
   batchScanManagerToken,
   getConnectionToken,
   getEntityManagerToken,
   getScanManagerToken,
 } from './common/typedorm.utils';
+import {
+  TypeDormModuleAsyncOptions,
+  TypeDormModuleOptions,
+  TypeDormOptionsFactory,
+} from './interfaces';
+import {
+  TYPEDORM_MODULE_ID,
+  TYPEDORM_MODULE_OPTIONS,
+} from './typedorm.constants';
+import { TypeDormModule } from './typedorm.module';
+import { createTypeDormProviders } from './typedorm.providers';
 
 @Global()
 @Module({})

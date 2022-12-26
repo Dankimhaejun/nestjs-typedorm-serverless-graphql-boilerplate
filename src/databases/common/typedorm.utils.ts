@@ -8,8 +8,8 @@ import {
   EntityManager,
   ScanManager,
 } from '@typedorm/core';
-import { TypeDormModuleOptions } from '../interfaces';
 
+import { TypeDormModuleOptions } from '../interfaces';
 import { DEFAULT_CONNECTION_NAME } from '../typedorm.constants';
 
 /**

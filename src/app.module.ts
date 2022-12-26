@@ -1,14 +1,15 @@
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module, ValidationPipe } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_PIPE } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
+import { TypeDormModule, masterTable } from 'src/databases';
+import { Organization } from 'src/entities/organization.entity';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { OrganizationModule } from './components/organization/organization.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Organization } from 'src/entities/organization.entity';
-import { TypeDormModule, masterTable } from 'src/databases';
 import { UserModule } from './components/customer/customer.module';
-import { APP_PIPE } from '@nestjs/core';
+import { OrganizationModule } from './components/organization/organization.module';
 
 @Module({
   imports: [

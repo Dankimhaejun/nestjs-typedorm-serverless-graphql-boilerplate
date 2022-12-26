@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOrganizationInput } from './dto/create-organization.input';
-import { UpdateOrganizationInput } from './dto/update-organization.input';
 import { OrganizationRepository } from 'src/components/organization/organization.repository';
 import { Organization } from 'src/entities/organization.entity';
+
+import { CreateOrganizationInput } from './dto/create-organization.input';
+import { UpdateOrganizationInput } from './dto/update-organization.input';
 
 @Injectable()
 export class OrganizationService {

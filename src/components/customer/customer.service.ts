@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCustomerInput } from './dto/create-customer.input';
-import { UpdateUserInput } from './dto/update-user.input';
-import Clayful from 'clayful';
-import { LoginInput } from 'src/components/customer/dto/login.input';
 import { ApolloError } from 'apollo-server-express';
-import { LoginOutput } from 'src/components/customer/dto/login.output';
+import Clayful from 'clayful';
+
+import { CreateCustomerInput } from './dto/create-customer.input';
+import { LoginInput } from './dto/login.input';
+import { LoginOutput } from './dto/login.output';
+import { UpdateUserInput } from './dto/update-user.input';
 
 Clayful.config({
   client:
     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjkyYzRlZjdiYmQ3ZjViNzU3ODI5NTYyZTFmZTBlYjFlNTc4MTJmMzM5MzZkYTE1MGNkMzY5YTQzMThhOWE2OTQiLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNjcyMDM3NTM5LCJzdG9yZSI6IlpSNllHTlpHVEc4TS5SUTJVVEpBOTlCUlMiLCJzdWIiOiJFQkxSV1RORUFGQlYifQ.XkW_5CjyCSqS1_F_z4AOqBH8WIQMBMzQ5Sqp-lLv_0w',
 });
+
 const Customer = Clayful.Customer;
 
 @Injectable()
