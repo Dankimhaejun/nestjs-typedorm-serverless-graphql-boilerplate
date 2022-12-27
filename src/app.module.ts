@@ -6,10 +6,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeDormModule, masterTable } from 'src/databases';
 import { Organization } from 'src/entities/organization.entity';
 
+import { ClayfulModule } from './api/clayful/clayful.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './components/customer/customer.module';
 import { OrganizationModule } from './components/organization/organization.module';
+import { UserModule } from './components/user/user.module';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { OrganizationModule } from './components/organization/organization.modul
     TypeDormModule.forRootAsync({
       name: 'default',
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
+      useFactory: (configService: ConfigService) => {
         const region = configService.get<string>('REGION');
 
         return {
@@ -32,6 +33,9 @@ import { OrganizationModule } from './components/organization/organization.modul
           region,
         };
       },
+    }),
+    ClayfulModule.forRoot({
+      clientKey: process.env.CLAYFUL_CLIENT_KEY,
     }),
     UserModule,
     OrganizationModule,

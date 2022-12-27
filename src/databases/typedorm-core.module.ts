@@ -161,6 +161,6 @@ export class TypeDormCoreModule implements OnModuleInit {
   }
 
   onModuleInit() {
-    this.logger.log('The module has been initialised.');
+    this.logger.log('The module has been initialized.');
   }
 }
