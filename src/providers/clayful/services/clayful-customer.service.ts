@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApolloError } from 'apollo-server-express';
+import { OauthPlatform } from 'src/entities/user-signup-method.entity';
 import {
   CLAYFUL_API_ERROR,
   CLAYFUL_CUSTOMER,
   VERIFICATION_EMAIL_EXPIRES_IN,
-} from 'src/api/clayful/clayful.constants';
-import { IClayfulCustomer } from 'src/api/clayful/interfaces';
-import { OauthPlatform } from 'src/components/user/dto/input/signup-user-by-oauth.input';
+} from 'src/providers/clayful/clayful.constants';
+import { IClayfulCustomer } from 'src/providers/clayful/interfaces';
 
 @Injectable()
 export class ClayfulCustomerService {
@@ -24,7 +24,18 @@ export class ClayfulCustomerService {
 
   async authenticateBy3rdParty(oauthPlatform: OauthPlatform, token: string) {
     const payload = { token };
-    return this.customerService.authenticateBy3rdParty(oauthPlatform, payload);
+
+    try {
+      const { data } = await this.customerService.authenticateBy3rdParty(
+        oauthPlatform,
+        payload,
+      );
+
+      return data;
+    } catch (err) {
+      console.log('err', err);
+      throw new ApolloError(err, CLAYFUL_API_ERROR);
+    }
   }
 
   async createMe(email: string, password: string) {
@@ -32,7 +43,7 @@ export class ClayfulCustomerService {
     return this.customerService.createMe(payload);
   }
 
-  async requestVerificationEmail(email: string) {
+  async requestVerificationEmail(email: string): Promise<boolean> {
     const expiresIn = this.configService.getOrThrow<number>(
       VERIFICATION_EMAIL_EXPIRES_IN,
     );
@@ -42,9 +53,15 @@ export class ClayfulCustomerService {
       expiresIn,
       scope: 'verification' as const,
     };
-    const result = await this.customerService.requestVerificationEmail(payload);
-    console.log('result', result);
-    return result;
+
+    try {
+      await this.customerService.requestVerificationEmail(payload);
+
+      return true;
+    } catch (err) {
+      console.log('err', err);
+      throw new ApolloError(err, CLAYFUL_API_ERROR);
+    }
   }
 
   async verify(customerId: string, secret: string): Promise<boolean> {

@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { ApolloError } from 'apollo-server-express';
 import Clayful from 'clayful';
-import { CLAYFUL_CUSTOMER } from 'src/api/clayful';
-import { ClayfulCustomerService } from 'src/api/clayful/services/customer.service';
+import { CLAYFUL_CUSTOMER } from 'src/providers/clayful';
+import { ClayfulCustomerService } from 'src/providers/clayful/services/clayful-customer.service';
 
 export interface ConnectionOptions {
   /**
