@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable no-nested-ternary */
 import { Type } from '@nestjs/common';
+import { INDEX_TYPE, Table } from '@typedorm/common';
 import {
   BatchManager,
   Connection,
@@ -64,7 +65,7 @@ export function getScanManagerToken(
     : `${connection.name}ScanManager`;
 }
 
-export function batchScanManagerToken(
+export function batchManagerToken(
   connection: Connection | ConnectionOptions | string = DEFAULT_CONNECTION_NAME,
 ): string | Function {
   return DEFAULT_CONNECTION_NAME === connection
@@ -79,3 +80,26 @@ export function batchScanManagerToken(
 export function getConnectionName(options: ConnectionOptions) {
   return options && options.name ? options.name : DEFAULT_CONNECTION_NAME;
 }
+
+export const masterTable = new Table({
+  name: process.env.TABLE_NAME,
+  partitionKey: 'PK',
+  sortKey: 'SK',
+  indexes: {
+    GSI1: {
+      type: INDEX_TYPE.GSI,
+      partitionKey: 'GSI1PK',
+      sortKey: 'GSI1SK',
+    },
+    GSI2: {
+      type: INDEX_TYPE.GSI,
+      partitionKey: 'GSI2PK',
+      sortKey: 'GSI2SK',
+    },
+    GSI3: {
+      type: INDEX_TYPE.GSI,
+      partitionKey: 'GSI3PK',
+      sortKey: 'GSI3SK',
+    },
+  },
+});

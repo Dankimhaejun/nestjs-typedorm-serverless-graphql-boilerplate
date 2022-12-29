@@ -4,13 +4,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeDormModule, masterTable } from 'src/databases';
-import { Organization } from 'src/entities/organization.entity';
+import { UserEmail } from 'src/entities/user-email.entity';
+import { UserSignupMethod } from 'src/entities/user-signup-method.entity';
+import { User } from 'src/entities/user.entity';
 
-import { ClayfulModule } from './api/clayful/clayful.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { OrganizationModule } from './components/organization/organization.module';
 import { UserModule } from './components/user/user.module';
+import { ClayfulModule } from './providers/clayful/clayful.module';
 
 @Module({
   imports: [
@@ -19,18 +20,24 @@ import { UserModule } from './components/user/user.module';
       debug: true,
       playground: true,
       autoSchemaFile: true,
+      introspection: true,
     }),
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.SERVERLESS_ENV}`,
+    }),
     TypeDormModule.forRootAsync({
       name: 'default',
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const region = configService.get<string>('REGION');
+        const endpoint = configService.get<string>('ENDPOINT');
 
         return {
           table: masterTable,
-          entities: [Organization],
+          entities: [User, UserSignupMethod, UserEmail],
           region,
+          endpoint,
         };
       },
     }),
@@ -38,7 +45,6 @@ import { UserModule } from './components/user/user.module';
       clientKey: process.env.CLAYFUL_CLIENT_KEY,
     }),
     UserModule,
-    OrganizationModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_PIPE, useClass: ValidationPipe }],

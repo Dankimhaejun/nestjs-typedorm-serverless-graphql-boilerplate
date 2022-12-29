@@ -12,7 +12,7 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { v4 as uuid } from 'uuid';
 
 import {
-  batchScanManagerToken,
+  batchManagerToken,
   getConnectionToken,
   getEntityManagerToken,
   getScanManagerToken,
@@ -91,10 +91,8 @@ export class TypeDormCoreModule implements OnModuleInit {
     };
 
     const batchManagerProvider = {
-      provide: batchScanManagerToken(
-        options as TypeDormModuleOptions,
-      ) as string,
-      useFactory: (connection: Connection) => connection.scanManager,
+      provide: batchManagerToken(options as TypeDormModuleOptions) as string,
+      useFactory: (connection: Connection) => connection.batchManager,
       inject: [getConnectionToken(options as TypeDormModuleOptions)],
     };
 

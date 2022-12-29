@@ -1,15 +1,5 @@
-import { InputType, Field, registerEnumType } from '@nestjs/graphql';
-
-export enum OauthPlatform {
-  KAKAO = 'kakao',
-  NAVER = 'naver',
-  GOOGLE = 'google',
-}
-
-registerEnumType(OauthPlatform, {
-  name: 'OauthPlatform',
-  description: '현재 지원하는 소셜 로그인 플랫폼',
-});
+import { InputType, Field } from '@nestjs/graphql';
+import { OauthPlatform } from 'src/entities/user-signup-method.entity';
 
 @InputType()
 export class SignupUserByOauthInput {

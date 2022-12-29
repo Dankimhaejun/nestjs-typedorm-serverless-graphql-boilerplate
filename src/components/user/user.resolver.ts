@@ -1,13 +1,13 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { CreateUserInput } from 'src/components/user/dto/input/create-user.input';
+import { LoginInput } from 'src/components/user/dto/input/login.input';
 import { SendVerificationEmailInput } from 'src/components/user/dto/input/send-verification-email.input';
 import { SignupUserByOauthInput } from 'src/components/user/dto/input/signup-user-by-oauth.input';
+import { TestSignupInput } from 'src/components/user/dto/input/test-signup.input';
 import { VerifyEmailInput } from 'src/components/user/dto/input/verify-email.input';
 import { LoginOutput } from 'src/components/user/dto/output/login.output';
-
-import { CreateUserInput } from './dto/input/create-user.input';
-import { LoginInput } from './dto/input/login.input';
-import { User } from './entities/user.entity';
-import { UserService } from './user.service';
+import { UserService } from 'src/components/user/user.service';
+import { User } from 'src/entities/user.entity';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -53,5 +53,13 @@ export class UserResolver {
   })
   verifyEmail(@Args('input') input: VerifyEmailInput): Promise<boolean> {
     return this.userService.verifyEmailBySecret(input);
+  }
+
+  @Mutation(() => Boolean, {
+    name: 'testSignup',
+    description: `회원가입을 할 수 있다.\n1.헬로월드다`,
+  })
+  testSignup(@Args('input') input: TestSignupInput): Promise<boolean> {
+    return this.userService.testSignup(input);
   }
 }
