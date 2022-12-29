@@ -30,14 +30,14 @@ export interface IClayfulCustomer {
    */
   authenticateBy3rdParty(
     platform: string,
-    payload: { token: string },
+    payload: { token: string }
   ): {
     status: number;
     data: {
       /**
        * 회원가입:register, 로그인:login
        */
-      action: 'register' | 'login';
+      action: "register" | "login";
       /**
        * 고유 아이디
        */
@@ -59,7 +59,7 @@ export interface IClayfulCustomer {
   requestVerificationEmail(payload: {
     email: string;
     expiresIn: number;
-    scope: 'verification';
+    scope: "verification";
   }): void;
 
   /**
@@ -67,7 +67,7 @@ export interface IClayfulCustomer {
    */
   verify(
     customerId: string,
-    payload: { secret: string },
+    payload: { secret: string }
   ): {
     status: number;
     data: {

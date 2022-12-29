@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@typedorm/core';
+import { Injectable } from "@nestjs/common";
+import { EntityManager } from "@typedorm/core";
+
 import {
   OauthPlatform,
   UserSignupMethod,
-} from 'src/entities/user-signup-method.entity';
+} from "src/entities/user-signup-method.entity";
 
-import { GSI1 } from './../databases/typedorm.constants';
+import { GSI1 } from "./../databases/typedorm.constants";
 
 @Injectable()
 export class UserSignupMethodRepository {
@@ -44,7 +45,7 @@ export class UserSignupMethodRepository {
       {
         userId: userId,
       },
-      { queryIndex: GSI1, cursor: parsedCursor, limit },
+      { queryIndex: GSI1, cursor: parsedCursor, limit }
     );
   }
 }

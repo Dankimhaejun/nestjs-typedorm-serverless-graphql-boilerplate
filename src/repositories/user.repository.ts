@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@typedorm/core';
-import { GSI1 } from 'src/databases/typedorm.constants';
-import { User } from 'src/entities/user.entity';
+import { Injectable } from "@nestjs/common";
+import { EntityManager } from "@typedorm/core";
+
+import { GSI1 } from "src/databases/typedorm.constants";
+import { User } from "src/entities/user.entity";
 
 @Injectable()
 export class UserRepository {
@@ -11,7 +12,7 @@ export class UserRepository {
     id: string,
     name: string,
     phoneNumber: string,
-    birthDate: string,
+    birthDate: string
   ): User {
     const newEntity = new User();
     newEntity.id = id;
@@ -26,7 +27,7 @@ export class UserRepository {
     id: string,
     name: string,
     phoneNumber: string,
-    birthDate: string,
+    birthDate: string
   ) {
     const newEntity = this.createNewEntity(id, name, phoneNumber, birthDate);
 
@@ -41,7 +42,7 @@ export class UserRepository {
         phoneNumber,
         birthDate,
       },
-      { queryIndex: GSI1, limit: 1 },
+      { queryIndex: GSI1, limit: 1 }
     );
   }
 }

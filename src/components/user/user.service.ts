@@ -1,20 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { BatchManager, WriteBatch } from '@typedorm/core';
-import { ApolloError } from 'apollo-server-express';
-import axios from 'axios';
-import { CreateUserInput } from 'src/components/user/dto/input/create-user.input';
-import { LoginInput } from 'src/components/user/dto/input/login.input';
-import { SendVerificationEmailInput } from 'src/components/user/dto/input/send-verification-email.input';
-import { SignupUserByOauthInput } from 'src/components/user/dto/input/signup-user-by-oauth.input';
-import { VerifyEmailInput } from 'src/components/user/dto/input/verify-email.input';
-import { LoginOutput } from 'src/components/user/dto/output/login.output';
-import { OauthPlatform } from 'src/entities/user-signup-method.entity';
-import { ClayfulCustomerService } from 'src/providers/clayful/services/clayful-customer.service';
-import { UserSignupMethodRepository } from 'src/repositories/user-signup-method.repository';
-import { UserRepository } from 'src/repositories/user.repository';
-import { v4 as uuid } from 'uuid';
+import { Injectable } from "@nestjs/common";
+import { BatchManager, WriteBatch } from "@typedorm/core";
+import { ApolloError } from "apollo-server-express";
+import axios from "axios";
+import { CreateUserInput } from "src/components/user/dto/input/create-user.input";
+import { LoginInput } from "src/components/user/dto/input/login.input";
+import { SendVerificationEmailInput } from "src/components/user/dto/input/send-verification-email.input";
+import { SignupUserByOauthInput } from "src/components/user/dto/input/signup-user-by-oauth.input";
+import { VerifyEmailInput } from "src/components/user/dto/input/verify-email.input";
+import { LoginOutput } from "src/components/user/dto/output/login.output";
+import { OauthPlatform } from "src/entities/user-signup-method.entity";
+import { ClayfulCustomerService } from "src/providers/clayful/services/clayful-customer.service";
+import { UserSignupMethodRepository } from "src/repositories/user-signup-method.repository";
+import { UserRepository } from "src/repositories/user.repository";
+import { v4 as uuid } from "uuid";
 
-import { TestSignupInput } from './dto/input/test-signup.input';
+import { TestSignupInput } from "./dto/input/test-signup.input";
 
 @Injectable()
 export class UserService {
@@ -22,7 +22,7 @@ export class UserService {
     private readonly clayfulCustomer: ClayfulCustomerService,
     private readonly userRepository: UserRepository,
     private readonly userSignupMethodRepository: UserSignupMethodRepository,
-    private readonly batchManager: BatchManager,
+    private readonly batchManager: BatchManager
   ) {}
 
   async createCustomer(input: CreateUserInput) {
@@ -30,12 +30,12 @@ export class UserService {
 
     try {
       const customer = await this.clayfulCustomer.createMe(email, password);
-      console.log('customer', customer);
+      console.log("customer", customer);
     } catch (err) {
-      throw new ApolloError(err, 'CLAYFUL_API_ERROR');
+      throw new ApolloError(err, "CLAYFUL_API_ERROR");
     }
 
-    return 'This action adds a new user';
+    return "This action adds a new user";
   }
 
   findAll() {
@@ -63,12 +63,12 @@ export class UserService {
         expiresIn: data.expiresIn,
       };
     } catch (err) {
-      throw new ApolloError(err, 'CLAYFUL_API_ERROR');
+      throw new ApolloError(err, "CLAYFUL_API_ERROR");
     }
   }
 
   async sendVerificationEmailToUser(
-    input: SendVerificationEmailInput,
+    input: SendVerificationEmailInput
   ): Promise<boolean> {
     const { email } = input;
 
@@ -88,19 +88,19 @@ export class UserService {
 
     const key = await this.getOauthIdByPlatformAccessToken(
       platform,
-      accessToken,
+      accessToken
     );
 
     //2. platform, id를 통해 회원가입한 이력이 있는지 확인한다.
     // (에러)이미 회원가입한 경우 에러 처리
     const userSignupMethod = await this.userSignupMethodRepository.findOneByPk(
       platform,
-      key,
+      key
     );
 
     if (userSignupMethod) {
       throw new ApolloError(
-        '이미 회원가입한 유저입니다. 다시 로그인을 시도해주세요',
+        "이미 회원가입한 유저입니다. 다시 로그인을 시도해주세요"
       );
     }
 
@@ -108,7 +108,7 @@ export class UserService {
     const { items } = await this.userRepository.findFirstByGSI1(
       name,
       phoneNumber,
-      birthDate,
+      birthDate
     );
 
     //4. 이미 회원가입한 유저라면 UserSignupMethod만 추가한다.
@@ -125,7 +125,7 @@ export class UserService {
       userId,
       name,
       phoneNumber,
-      birthDate,
+      birthDate
     );
 
     const newUserSignupMethodEntity =
@@ -134,20 +134,20 @@ export class UserService {
     const batchToWrite = new WriteBatch()
       .addCreateItem(newUserEntity)
       .addCreateItem(newUserSignupMethodEntity);
-    console.log('this.batchManager', this.batchManager);
+    console.log("this.batchManager", this.batchManager);
     const batchResponse = await this.batchManager.write(batchToWrite);
-    console.log('batchResponse', batchResponse);
+    console.log("batchResponse", batchResponse);
     return true;
   }
 
   private async getOauthIdByPlatformAccessToken(
     platform: OauthPlatform,
-    accessToken: string,
+    accessToken: string
   ): Promise<string> {
     switch (platform) {
       case OauthPlatform.GOOGLE: {
         const result = await axios.get(
-          `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`,
+          `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
         );
         return result.data.user_id;
       }
@@ -156,7 +156,7 @@ export class UserService {
         const result = await axios.get(`https://kapi.kakao.com/v2/user/me`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
           },
         });
         return result.data.id;
@@ -172,7 +172,7 @@ export class UserService {
       }
 
       case OauthPlatform.EMAIL: {
-        throw new ApolloError('EMAIL은 검증 대상이 아닙니다.');
+        throw new ApolloError("EMAIL은 검증 대상이 아닙니다.");
       }
     }
   }

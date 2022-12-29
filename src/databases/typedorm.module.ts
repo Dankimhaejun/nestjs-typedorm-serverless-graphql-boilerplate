@@ -1,8 +1,8 @@
-import { DynamicModule, Global, Module } from '@nestjs/common';
-import { ConnectionOptions } from '@typedorm/core';
+import { DynamicModule, Global, Module } from "@nestjs/common";
+import { ConnectionOptions } from "@typedorm/core";
 
-import { TypeDormModuleAsyncOptions } from './interfaces';
-import { TypeDormCoreModule } from './typedorm-core.module';
+import { TypeDormModuleAsyncOptions } from "./interfaces";
+import { TypeDormCoreModule } from "./typedorm-core.module";
 
 @Global()
 @Module({})
@@ -15,7 +15,7 @@ export class TypeDormModule {
   }
 
   public static forRootAsync(
-    options: TypeDormModuleAsyncOptions,
+    options: TypeDormModuleAsyncOptions
   ): DynamicModule {
     return {
       module: TypeDormModule,

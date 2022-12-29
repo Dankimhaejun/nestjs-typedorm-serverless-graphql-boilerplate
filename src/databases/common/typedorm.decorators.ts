@@ -1,10 +1,10 @@
-import { Inject } from '@nestjs/common';
+import { Inject } from "@nestjs/common";
 import {
   BatchManager,
   Connection,
   EntityManager,
   ScanManager,
-} from '@typedorm/core';
+} from "@typedorm/core";
 
 export const InjectEntityManager = () => Inject(EntityManager);
 

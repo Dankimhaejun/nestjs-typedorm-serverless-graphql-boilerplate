@@ -1,17 +1,18 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Module, ValidationPipe } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_PIPE } from '@nestjs/core';
-import { GraphQLModule } from '@nestjs/graphql';
-import { TypeDormModule, masterTable } from 'src/databases';
-import { UserEmail } from 'src/entities/user-email.entity';
-import { UserSignupMethod } from 'src/entities/user-signup-method.entity';
-import { User } from 'src/entities/user.entity';
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { Module, ValidationPipe } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { APP_PIPE } from "@nestjs/core";
+import { GraphQLModule } from "@nestjs/graphql";
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './components/user/user.module';
-import { ClayfulModule } from './providers/clayful/clayful.module';
+import { masterTable, TypeDormModule } from "src/databases";
+import { User } from "src/entities/user.entity";
+import { UserEmail } from "src/entities/user-email.entity";
+import { UserSignupMethod } from "src/entities/user-signup-method.entity";
+
+import { UserModule } from "./components/user/user.module";
+import { ClayfulModule } from "./providers/clayful/clayful.module";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
 
 @Module({
   imports: [
@@ -26,12 +27,13 @@ import { ClayfulModule } from './providers/clayful/clayful.module';
       isGlobal: true,
       envFilePath: `.env.${process.env.SERVERLESS_ENV}`,
     }),
+
     TypeDormModule.forRootAsync({
-      name: 'default',
+      name: "default",
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const region = configService.get<string>('REGION');
-        const endpoint = configService.get<string>('ENDPOINT');
+        const region = configService.get<string>("REGION");
+        const endpoint = configService.get<string>("ENDPOINT");
 
         return {
           table: masterTable,

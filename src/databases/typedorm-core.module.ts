@@ -6,33 +6,33 @@ import {
   OnModuleInit,
   Provider,
   Type,
-} from '@nestjs/common';
-import { Connection, createConnection } from '@typedorm/core';
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import { v4 as uuid } from 'uuid';
+} from "@nestjs/common";
+import { Connection, createConnection } from "@typedorm/core";
+import { DocumentClient } from "aws-sdk/clients/dynamodb";
+import { v4 as uuid } from "uuid";
 
 import {
   batchManagerToken,
   getConnectionToken,
   getEntityManagerToken,
   getScanManagerToken,
-} from './common/typedorm.utils';
+} from "./common/typedorm.utils";
 import {
   TypeDormModuleAsyncOptions,
   TypeDormModuleOptions,
   TypeDormOptionsFactory,
-} from './interfaces';
+} from "./interfaces";
 import {
   TYPEDORM_MODULE_ID,
   TYPEDORM_MODULE_OPTIONS,
-} from './typedorm.constants';
-import { TypeDormModule } from './typedorm.module';
-import { createTypeDormProviders } from './typedorm.providers';
+} from "./typedorm.constants";
+import { TypeDormModule } from "./typedorm.module";
+import { createTypeDormProviders } from "./typedorm.providers";
 
 @Global()
 @Module({})
 export class TypeDormCoreModule implements OnModuleInit {
-  private readonly logger = new Logger('TypeDormModule');
+  private readonly logger = new Logger("TypeDormModule");
 
   public static forRoot(config: TypeDormModuleOptions): DynamicModule {
     (config as any).entities = config.entities;
@@ -45,7 +45,7 @@ export class TypeDormCoreModule implements OnModuleInit {
   }
 
   public static forRootAsync(
-    options: TypeDormModuleAsyncOptions,
+    options: TypeDormModuleAsyncOptions
   ): DynamicModule {
     const connectionProvider = {
       provide: getConnectionToken(options as TypeDormModuleOptions) as string,
@@ -78,7 +78,7 @@ export class TypeDormCoreModule implements OnModuleInit {
 
     const entityManagerProvider = {
       provide: getEntityManagerToken(
-        options as TypeDormModuleOptions,
+        options as TypeDormModuleOptions
       ) as string,
       useFactory: (connection: Connection) => connection.entityManager,
       inject: [getConnectionToken(options as TypeDormModuleOptions)],
@@ -121,7 +121,7 @@ export class TypeDormCoreModule implements OnModuleInit {
   }
 
   private static createAsyncOptionsProvider(
-    options: TypeDormModuleAsyncOptions,
+    options: TypeDormModuleAsyncOptions
   ): Provider {
     if (options.useFactory) {
       return {
@@ -143,7 +143,7 @@ export class TypeDormCoreModule implements OnModuleInit {
   }
 
   private static createAsyncProviders(
-    options: TypeDormModuleAsyncOptions,
+    options: TypeDormModuleAsyncOptions
   ): Provider[] {
     if (options.useExisting || options.useFactory) {
       return [this.createAsyncOptionsProvider(options)];
@@ -159,6 +159,6 @@ export class TypeDormCoreModule implements OnModuleInit {
   }
 
   onModuleInit() {
-    this.logger.log('The module has been initialized.');
+    this.logger.log("The module has been initialized.");
   }
 }

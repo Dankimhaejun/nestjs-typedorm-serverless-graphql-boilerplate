@@ -1,9 +1,9 @@
-import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
-import { EntityTarget, Table } from '@typedorm/common';
+import { ModuleMetadata, Type } from "@nestjs/common/interfaces";
+import { EntityTarget, Table } from "@typedorm/common";
 
 export interface TypeDormOptionsFactory {
   createTypeDormOptions(
-    connectionName?: string,
+    connectionName?: string
   ): Promise<TypeDormModuleOptions> | TypeDormModuleOptions;
 }
 
@@ -16,7 +16,7 @@ export interface TypeDormModuleOptions {
 }
 
 export interface TypeDormModuleAsyncOptions
-  extends Pick<ModuleMetadata, 'imports'> {
+  extends Pick<ModuleMetadata, "imports"> {
   name?: string;
   useExisting?: Type<TypeDormOptionsFactory>;
   useClass?: Type<TypeDormOptionsFactory>;

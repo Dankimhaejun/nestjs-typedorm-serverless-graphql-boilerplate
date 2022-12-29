@@ -1,17 +1,17 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from "@nestjs/graphql";
 import {
   Attribute,
   Entity,
   AutoGenerateAttribute,
   INDEX_TYPE,
   AUTO_GENERATE_ATTRIBUTE_STRATEGY,
-} from '@typedorm/common';
-import { IsPhoneNumber, Length } from 'class-validator';
-import { masterTable } from 'src/databases';
-import { USER } from 'src/entities/entity.constants';
+} from "@typedorm/common";
+import { IsPhoneNumber, Length } from "class-validator";
+import { masterTable } from "src/databases";
+import { USER } from "src/entities/entity.constants";
 
 @Entity({
-  name: 'User',
+  name: "User",
   table: masterTable,
   primaryKey: {
     partitionKey: `${USER}#{{id}}`,

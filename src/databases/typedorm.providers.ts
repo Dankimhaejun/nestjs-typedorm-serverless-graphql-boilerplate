@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger } from "@nestjs/common";
 import {
   BatchManager,
   Connection,
@@ -10,9 +10,9 @@ import {
   getEntityManager,
   getScanManager,
   ScanManager,
-} from '@typedorm/core';
+} from "@typedorm/core";
 
-const logger = new Logger('TypeDormModule');
+const logger = new Logger("TypeDormModule");
 
 export function createTypeDormProviders(config: ConnectionOptions) {
   const connectionProvider = {
@@ -24,7 +24,7 @@ export function createTypeDormProviders(config: ConnectionOptions) {
         documentClient: config.documentClient,
       });
 
-      logger.log('Database connected');
+      logger.log("Database connected");
       return getConnection();
     },
   };

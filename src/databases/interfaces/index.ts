@@ -1,1 +1,1 @@
-export * from './typedorm-options.interface';
+export * from "./typedorm-options.interface";

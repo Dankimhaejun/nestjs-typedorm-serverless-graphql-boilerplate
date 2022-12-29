@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class AppService {
   async getHello(): Promise<string> {
-    return 'hello';
+    return "hello";
   }
 }

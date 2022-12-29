@@ -1,20 +1,20 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { ApolloError } from 'apollo-server-express';
-import { OauthPlatform } from 'src/entities/user-signup-method.entity';
+import { Inject, Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { ApolloError } from "apollo-server-express";
+import { OauthPlatform } from "src/entities/user-signup-method.entity";
 import {
   CLAYFUL_API_ERROR,
   CLAYFUL_CUSTOMER,
   VERIFICATION_EMAIL_EXPIRES_IN,
-} from 'src/providers/clayful/clayful.constants';
-import { IClayfulCustomer } from 'src/providers/clayful/interfaces';
+} from "src/providers/clayful/clayful.constants";
+import { IClayfulCustomer } from "src/providers/clayful/interfaces";
 
 @Injectable()
 export class ClayfulCustomerService {
   constructor(
     @Inject(CLAYFUL_CUSTOMER)
     private readonly customerService: IClayfulCustomer,
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService
   ) {}
 
   async authenticate(email: string, password: string) {
@@ -28,12 +28,12 @@ export class ClayfulCustomerService {
     try {
       const { data } = await this.customerService.authenticateBy3rdParty(
         oauthPlatform,
-        payload,
+        payload
       );
 
       return data;
     } catch (err) {
-      console.log('err', err);
+      console.log("err", err);
       throw new ApolloError(err, CLAYFUL_API_ERROR);
     }
   }
@@ -45,13 +45,13 @@ export class ClayfulCustomerService {
 
   async requestVerificationEmail(email: string): Promise<boolean> {
     const expiresIn = this.configService.getOrThrow<number>(
-      VERIFICATION_EMAIL_EXPIRES_IN,
+      VERIFICATION_EMAIL_EXPIRES_IN
     );
 
     const payload = {
       email,
       expiresIn,
-      scope: 'verification' as const,
+      scope: "verification" as const,
     };
 
     try {
@@ -59,7 +59,7 @@ export class ClayfulCustomerService {
 
       return true;
     } catch (err) {
-      console.log('err', err);
+      console.log("err", err);
       throw new ApolloError(err, CLAYFUL_API_ERROR);
     }
   }
@@ -75,13 +75,13 @@ export class ClayfulCustomerService {
 
       if (status === 400) {
         throw new ApolloError(err, CLAYFUL_API_ERROR, {
-          detailCode: 'INVALID_INPUT',
+          detailCode: "INVALID_INPUT",
         });
       }
 
       if (status === 401) {
         throw new ApolloError(err, CLAYFUL_API_ERROR, {
-          detailCode: 'EXPIRED_VERIFICATION',
+          detailCode: "EXPIRED_VERIFICATION",
         });
       }
 

@@ -1,9 +1,10 @@
-import 'reflect-metadata';
-import { NestFactory } from '@nestjs/core';
-import serverlessExpress from '@vendia/serverless-express';
-import { Callback, Context, Handler } from 'aws-lambda';
+import { NestFactory } from "@nestjs/core";
+import serverlessExpress from "@vendia/serverless-express";
+import { Callback, Context, Handler } from "aws-lambda";
 
-import { AppModule } from './app.module';
+import { AppModule } from "./app.module";
+
+import "reflect-metadata";
 let server: Handler;
 
 async function bootstrap(): Promise<Handler> {
@@ -17,7 +18,7 @@ async function bootstrap(): Promise<Handler> {
 export const handler: Handler = async (
   event: any,
   context: Context,
-  callback: Callback,
+  callback: Callback
 ) => {
   server = server ?? (await bootstrap());
   return server(event, context, callback);

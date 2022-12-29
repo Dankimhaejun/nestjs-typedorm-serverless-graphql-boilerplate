@@ -1,1 +1,1 @@
-declare module 'clayful';
+declare module "clayful";

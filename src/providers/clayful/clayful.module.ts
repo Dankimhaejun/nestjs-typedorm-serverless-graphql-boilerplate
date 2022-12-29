@@ -4,11 +4,11 @@ import {
   Logger,
   Module,
   OnModuleInit,
-} from '@nestjs/common';
-import { ApolloError } from 'apollo-server-express';
-import Clayful from 'clayful';
-import { CLAYFUL_CUSTOMER } from 'src/providers/clayful';
-import { ClayfulCustomerService } from 'src/providers/clayful/services/clayful-customer.service';
+} from "@nestjs/common";
+import { ApolloError } from "apollo-server-express";
+import Clayful from "clayful";
+import { CLAYFUL_CUSTOMER } from "src/providers/clayful";
+import { ClayfulCustomerService } from "src/providers/clayful/services/clayful-customer.service";
 
 export interface ConnectionOptions {
   /**
@@ -23,13 +23,13 @@ export interface ConnectionOptions {
   providers: [ClayfulCustomerService],
 })
 export class ClayfulModule implements OnModuleInit {
-  private readonly logger = new Logger('ClayfulModule');
+  private readonly logger = new Logger("ClayfulModule");
 
   static forRoot(options: ConnectionOptions): DynamicModule {
     const { clientKey } = options;
 
     if (!clientKey) {
-      throw new ApolloError('클레이풀 클라이언트키 없음');
+      throw new ApolloError("클레이풀 클라이언트키 없음");
     }
 
     Clayful.config({
@@ -49,6 +49,6 @@ export class ClayfulModule implements OnModuleInit {
   }
 
   onModuleInit() {
-    this.logger.log('The module has been initialized.');
+    this.logger.log("The module has been initialized.");
   }
 }
