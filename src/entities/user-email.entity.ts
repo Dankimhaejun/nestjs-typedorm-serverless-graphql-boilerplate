@@ -1,11 +1,12 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import {
   Attribute,
-  Entity,
-  AutoGenerateAttribute,
   AUTO_GENERATE_ATTRIBUTE_STRATEGY,
+  AutoGenerateAttribute,
+  Entity,
 } from "@typedorm/common";
 import { IsEmail, IsUUID } from "class-validator";
+
 import { masterTable } from "src/databases";
 import { USER_EMAIL } from "src/entities/entity.constants";
 

@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ApolloError } from "apollo-server-express";
+
 import { OauthPlatform } from "src/entities/user-signup-method.entity";
 import {
   CLAYFUL_API_ERROR,

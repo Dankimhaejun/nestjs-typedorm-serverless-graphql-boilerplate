@@ -12,7 +12,7 @@ provider:
   runtime: nodejs16.x
   timeout: 30 # attached to API Gateway so it's automatically limited to 30 seconds.
   profile: blinkers
-  stage: ${opt:stage, 'local'}
+  stage: ${opt:stage, 'development'}
   region: ap-northeast-2
   environment:
     SERVERLESS_ENV: ${self:provider.stage}
@@ -33,7 +33,7 @@ custom:
 
 functions:
   main:
-    handler: dist/index.handler
+    handler: dist/lambda.handler
     events:
       - http:
           method: ANY

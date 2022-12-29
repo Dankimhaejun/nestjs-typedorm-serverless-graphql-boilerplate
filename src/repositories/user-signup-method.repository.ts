@@ -1,12 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { EntityManager } from "@typedorm/core";
 
+import { GSI1 } from "src/databases";
 import {
   OauthPlatform,
   UserSignupMethod,
 } from "src/entities/user-signup-method.entity";
-
-import { GSI1 } from "./../databases/typedorm.constants";
 
 @Injectable()
 export class UserSignupMethodRepository {

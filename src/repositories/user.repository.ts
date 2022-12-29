@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { EntityManager } from "@typedorm/core";
 
-import { GSI1 } from "src/databases/typedorm.constants";
+import { GSI1 } from "src/databases";
 import { User } from "src/entities/user.entity";
 
 @Injectable()
