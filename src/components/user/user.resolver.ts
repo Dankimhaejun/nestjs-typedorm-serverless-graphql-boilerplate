@@ -1,11 +1,10 @@
-import { Resolver, Query, Mutation, Args } from "@nestjs/graphql";
-import { CreateUserInput } from "src/components/user/dto/input/create-user.input";
-import { LoginInput } from "src/components/user/dto/input/login.input";
+import { UseGuards } from "@nestjs/common";
+import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+
+import { AuthUser } from "src/auth/decorators/auth-user.decorator";
+import { JwtGqlAuthGuard } from "src/auth/guards/jwt-gql-auth.guard";
 import { SendVerificationEmailInput } from "src/components/user/dto/input/send-verification-email.input";
-import { SignupUserByOauthInput } from "src/components/user/dto/input/signup-user-by-oauth.input";
-import { TestSignupInput } from "src/components/user/dto/input/test-signup.input";
 import { VerifyEmailInput } from "src/components/user/dto/input/verify-email.input";
-import { LoginOutput } from "src/components/user/dto/output/login.output";
 import { UserService } from "src/components/user/user.service";
 import { User } from "src/entities/user.entity";
 
@@ -13,28 +12,14 @@ import { User } from "src/entities/user.entity";
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Query(() => LoginOutput, {
-    name: "login",
-    description: "일반 로그인",
+  @UseGuards(JwtGqlAuthGuard)
+  @Query(() => User, {
+    name: "user",
+    description: "액세스 토큰으로 유저 조회",
   })
-  login(@Args("input") input: LoginInput): Promise<LoginOutput> {
-    return this.userService.loginCustomer(input);
-  }
-
-  @Mutation(() => User, {
-    name: "createCustomer",
-    description: "일반 회원가입",
-  })
-  createCustomer(@Args("input") input: CreateUserInput) {
-    return this.userService.createCustomer(input);
-  }
-
-  @Mutation(() => String, {
-    name: "signUpCustomerByOauth",
-    description: `고객을 외부 서비스(소셜) 계정을 통해 로그인 / 가입시킵니다.\nhttps://dev.clayful.io/ko/node/apis/customer/authenticate-by-3rd-party`,
-  })
-  signUpCustomerByOauth(@Args("input") input: SignupUserByOauthInput) {
-    return this.userService.signUpCustomerByOauth(input);
+  user(@AuthUser() user: User): User {
+    console.log("user", user);
+    return user;
   }
 
   @Query(() => Boolean, {
@@ -53,13 +38,5 @@ export class UserResolver {
   })
   verifyEmail(@Args("input") input: VerifyEmailInput): Promise<boolean> {
     return this.userService.verifyEmailBySecret(input);
-  }
-
-  @Mutation(() => Boolean, {
-    name: "testSignup",
-    description: `회원가입을 할 수 있다.\n1.헬로월드다`,
-  })
-  testSignup(@Args("input") input: TestSignupInput): Promise<boolean> {
-    return this.userService.testSignup(input);
   }
 }

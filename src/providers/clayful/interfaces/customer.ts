@@ -2,7 +2,7 @@ export interface IClayfulCustomer {
   /**
    * 회원가입
    */
-  createMe(payload: { email: string; password: string });
+  createMe(payload: { userId: string; password: string });
 
   /**
    * 로그인

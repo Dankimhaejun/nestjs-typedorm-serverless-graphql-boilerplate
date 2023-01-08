@@ -11,17 +11,31 @@ import {
 export class UserSignupMethodRepository {
   constructor(private entityManager: EntityManager) {}
 
-  createNewEntity(platform: OauthPlatform, key: string, userId: string) {
+  createNewEntity(
+    platform: OauthPlatform,
+    key: string,
+    userId: string,
+    password?: string
+  ) {
     const newEntity = new UserSignupMethod();
     newEntity.platform = platform;
     newEntity.key = key;
     newEntity.userId = userId;
 
+    if (password) {
+      newEntity.password = password;
+    }
+
     return newEntity;
   }
 
-  async create(platform: OauthPlatform, key: string, userId: string) {
-    const newEntity = this.createNewEntity(platform, key, userId);
+  async create(
+    platform: OauthPlatform,
+    key: string,
+    userId: string,
+    password?: string
+  ) {
+    const newEntity = this.createNewEntity(platform, key, userId, password);
 
     return this.entityManager.create<UserSignupMethod>(newEntity);
   }

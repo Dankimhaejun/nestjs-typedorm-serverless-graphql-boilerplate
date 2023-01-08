@@ -39,8 +39,8 @@ export class ClayfulCustomerService {
     }
   }
 
-  async createMe(email: string, password: string) {
-    const payload = { email, password };
+  async createMe(userId: string, password: string) {
+    const payload = { userId, password };
     return this.customerService.createMe(payload);
   }
 
