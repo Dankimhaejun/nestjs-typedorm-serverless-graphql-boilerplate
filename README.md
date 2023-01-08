@@ -22,6 +22,14 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+# NestJS + Serverless + TypeDorm
+
+- NestJS, Serverless 를 사용한 프로젝트입니다.
+- NoSQL의 싱글테이블 패턴을 익히고자 하는 목적으로 만든 프로젝트입니다.
+- DynamoDB의 TypeDorm을 바로 사용할 수 있도록 연결했습니다.
+- serverless.yml에 대한 환경설정 수정 후 실행가능합니다.
+- .env 파일은 보안상의 이유로 공유하지 않습니다.
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
